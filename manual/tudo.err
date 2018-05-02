@@ -1,0 +1,11 @@
+Tst_Arv.c
+.\Tst_Arv.c(103) : warning C4127: conditional expression is constant
+Arvore.c
+Microsoft (R) Incremental Linker Version 10.00.30319.01
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/OUT:ExemploManual.exe 
+/INCREMENTAL:NO 
+/MACHINE:IX86 
+Tst_Arv.obj Arvore.obj 
+

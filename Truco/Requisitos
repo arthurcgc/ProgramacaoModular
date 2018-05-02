@@ -1,0 +1,16 @@
+1-Requisito nao-funcional
+  {
+    Baralho Generico;
+    Quando for o turno de uma equipe as cartas das outras equipes nao devem ser visiveis;
+    uso de programação modular sob a plataforma de linguagem c;
+  }
+
+2-Requisito funcional
+  {
+    até 6 jogadores e 3 equipes;  a cada rodada o jogador tem a opçao de pedir truco;
+    a cada rodada sao atualizados na tela o total de pontos de cada equipe
+    todo jogador tem a opçao de pedir truco em seu turno
+    as decisoes possiveis de cada jogador serao mostradas na tela
+
+  }
+3-
