@@ -21,6 +21,7 @@ typedef enum {
 
 
 typedef struct BAR_tagCarta * BAR_tppCarta ;
-
+typedef struct BAR_tagBaralho * BAR_tppBaralho;
 
 BAR_tpCondRet BAR_CriaCarta(BAR_tppCarta *carta,char *nome, int peso,char *naipe);
+BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *baralho,void   ( * ExcluirValor ) ( void * pDado ));
