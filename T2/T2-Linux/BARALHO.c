@@ -57,7 +57,7 @@ BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *pBar)
 	for(i=0;i<TRUCO;i++)
 	{
 		*p=i;
-		LIS_InserirElementoApos((*pBar)->Cartas, *p);
+		LIS_InserirElementoApos((*pBar)->Cartas, (void*)*p);
 	}
 	return BAR_CondRetOK;
 }
