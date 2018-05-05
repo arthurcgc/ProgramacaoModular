@@ -1,10 +1,14 @@
 #include <stdio.h>
-#include "CARTA.h"
+#include <stdlib.h>
+#include "BARALHO.h"
+#include "LISTA.H"
 
 int main()
 {
-	CAR_tpCarta *carta=(CAR_tpCarta*)malloc(sizeof(CAR_tpCarta));
-	*carta=CAR_CriaCarta("A",10,"ouros");
-	printf("nome da carta: %s\npeso: %d\nnaipe: %s\n",carta->nome,carta->peso,carta->naipe);
+	BAR_tppCarta *carta=(BAR_tppCarta*)malloc(sizeof(BAR_tppCarta));
+  if(BAR_CriaCarta(carta,"A",10,"ouros")==BAR_CondRetOK)
+	{
+	printf("sucesso!\n");
+	}
 	return 0;
 }
