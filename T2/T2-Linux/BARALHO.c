@@ -43,13 +43,34 @@ BAR_tpCondRet BAR_CriaCarta(BAR_tppCarta *carta,char *nome, int peso,char *naipe
 }
 
 
-BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *pBar,void   ( * ExcluirValor ) ( void * pDado ))
+BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *pBar)
 {
+	int i;
+	int *p=(int*)malloc(sizeof(int));
+	LIS_tpCondRet retorno;
 	*pBar = (BAR_tpBaralho*)malloc(sizeof(BAR_tpBaralho));
+	if ( *pBar == NULL )
+      {
+         return  BAR_CondRetFaltouMemoria ;
+      }
 	(*pBar)->Cartas = LIS_CriarLista(DestruirValor);
-	for(int i=0;i<TRUCO;i++)
+	for(i=0;i<TRUCO;i++)
 	{
-			LIS_InserirElementoApos((*pBar)->Cartas, 1);
+		*p=i;
+		LIS_InserirElementoApos((*pBar)->Cartas, (void*)*p);
 	}
 	return BAR_CondRetOK;
+}
+
+BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta *cartas[])
+{
+	BAR_tpCondRet retorno;
+	BAR_tppCarta *carta=(BAR_tppCarta*)malloc(sizeof(BAR_tppCarta));
+	int i;
+	for(i=0;i<TRUCO;i++)
+	{
+		retorno=BAR_CriaCarta(carta,"A",10,"ouros");
+		cartas[i]=carta;
+	}
+	return retorno;
 }
