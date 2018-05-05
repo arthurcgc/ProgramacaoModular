@@ -1,4 +1,54 @@
-#include "LISTA.H"
+#if ! defined( BARALHO_ )
+#define BARALHO_
+/***************************************************************************
+*
+*  $MCD Módulo de definição: BAR  BARALHO
+*
+*  Arquivo gerado:              BARALHO.h
+*  Letras identificadoras:      BAR
+*
+*  Projeto: INF 1301 / Truco
+*  Gestor:  DI/PUC-Rio
+*  Autores: Arthur Cavalcante Gomes Coelho(art)
+*
+*  $HA Histórico de evolução:
+*     Versão  Autor    Data     Observações
+*     1       art   30/04/2018 início desenvolvimento
+*
+*  $ED Descrição do módulo
+*     Cria o elemento carta
+*     Implementa baralhos de 40 cartas e embaralhamento.
+*     Baralhos são compostos por uma lista de cartas.
+*
+***************************************************************************/
+ 
+#include   "LISTA.H"
+
+#if defined( BARALHO_OWN )
+   #define BARALHO_EXT
+#else
+   #define BARALHO_EXT extern
+#endif
+
+/***** Declarações exportadas pelo módulo *****/
+
+/* Tipo referência para um baralho */
+
+typedef struct BAR_tagBaralho * BAR_tppBaralho;
+
+/* Tipo referência para uma carta */
+
+typedef struct BAR_tagCarta * BAR_tppCarta ;
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: BAR Condições de retorno
+*
+*
+*  $ED Descrição do tipo
+*     Condições de retorno das funções do módulo BARALHO
+*
+***********************************************************************/
 
 typedef enum {
 
@@ -8,21 +58,79 @@ typedef enum {
       BAR_CondRetListaVazia ,
             /* A lista n�o cont�m elementos */
 
-      BAR_CondRetFimLista ,
-            /* Foi atingido o fim de lista */
-
-      BAR_CondRetNaoAchou ,
-            /* N�o encontrou o valor procurado */
-
-      BAR_CondRetFaltouMemoria
+      BAR_CondRetFaltouMemoria,
             /* Faltou mem�ria ao tentar criar um elemento de lista */
+			
+	  BAR_CondRetCartaNaoCriada
+			/* Nao foi possivel criar o ponteiro Carta */
 
 } BAR_tpCondRet ;
 
 
-typedef struct BAR_tagCarta * BAR_tppCarta ;
-typedef struct BAR_tagBaralho * BAR_tppBaralho;
 
-BAR_tpCondRet BAR_CriaCarta(BAR_tppCarta *carta,char nome, int peso,char *naipe);
-BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *baralho);
+/***********************************************************************
+*
+*  $FC Função: BAR  &Cria carta
+*
+*  $ED Descrição da função
+*     Cria uma carta.
+*	  Uma carta é composta por seu nome, peso e naipe
+*
+*  $EP Parâmetros
+*	  pCarta		- endereço que vai receber a carta a ser criada
+*	  
+*
+*  $FV Valor retornado
+*     BAR_CondRetOK				- se tiver criado a carta com sucesso
+*	  BAR_CondRetFaltouMemoria  - se não tiver conseguido alocar memória para a carta
+*	  BAR_CondRetCartaNaoCriada - se houver falha na atribuição *pCarta=aux_carta
+*
+***********************************************************************/
+BAR_tpCondRet BAR_CriaCarta(BAR_tppCarta *pCarta,char nome, int peso,char *naipe);
+
+
+
+/***********************************************************************
+*
+*  $FC Função: BAR  &Criar baralho
+*
+*  $ED Descrição da função
+*     Cria um baralho.
+*	  Um baralho é composto por um ponteiro para uma cabeça de uma lista com as cartas.
+*	  O baralho é criado com todas as 40 cartas que pertencem ao jogo de Truco.
+*
+*  $EP Parâmetros
+*	  pBaralho		- endereço que vai receber o baralho a ser criado
+*
+*  $FV Valor retornado
+*     BAR_CondRetOK				- se tiver criado o baralho com sucesso
+*	  BAR_CondRetFaltouMemoria  - se não tiver conseguido alocar memória para o baralho
+*	  BAR_CondRetListaVazia - se (*pBaralho)->pCartas é NULL
+*
+***********************************************************************/
+BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *pBaralho);
+
+
+/***********************************************************************
+*
+*  $FC Função: BAR  &CriaVetorCartas
+*
+*  $ED Descrição da função
+*     Cria vetor de cartas e preenche-o com as cartas usadas no jogo de truco
+*
+*  $EP Parâmetros
+*	  cartas[]		- vetor que será preenchido pelas cartas
+*
+*  $FV Valor retornado
+*     BAR_CondRetOK				- se tiver criado o vetor com sucesso
+*	  BAR_CondRetFaltouMemoria  - se não tiver conseguido alocar memória para a carta
+*	  BAR_CondRetCartaNaoCriada - se houver falha na atribuição *pCarta=aux_carta
+*
+***********************************************************************/
 BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[]);
+
+#undef EMBARALHAMENTO_EXT
+
+/********** Fim do módulo de definição: EMB  Embaralhamento **********/
+#else
+#endif
