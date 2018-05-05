@@ -6,6 +6,7 @@
 int main()
 {
 	int retorno;
+	BAR_tppCarta *cartas[40];
 	BAR_tppBaralho *Baralho=(BAR_tppBaralho*)malloc(sizeof(BAR_tppBaralho));
 	BAR_tppCarta *carta=(BAR_tppCarta*)malloc(sizeof(BAR_tppCarta));
 	if(BAR_CriaCarta(carta,"A",10,"ouros")==BAR_CondRetOK)
@@ -13,5 +14,6 @@ int main()
 	printf("sucesso em criar uma carta!\n");
 	}
 	retorno=BAR_CriarBaralho(Baralho);
+	retorno=BAR_CriaVetorCartas(cartas);
 	return 0;
 }

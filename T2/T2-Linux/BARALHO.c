@@ -61,3 +61,16 @@ BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *pBar)
 	}
 	return BAR_CondRetOK;
 }
+
+BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta *cartas[])
+{
+	BAR_tpCondRet retorno;
+	BAR_tppCarta *carta=(BAR_tppCarta*)malloc(sizeof(BAR_tppCarta));
+	int i;
+	for(i=0;i<TRUCO;i++)
+	{
+		retorno=BAR_CriaCarta(carta,"A",10,"ouros");
+		cartas[i]=carta;
+	}
+	return retorno;
+}
