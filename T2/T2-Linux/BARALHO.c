@@ -19,6 +19,8 @@
 #include   <memory.h>
 #include   <malloc.h>
 #include   <assert.h>
+#include   <stdlib.h>
+#include   <time.h>
 #include "BARALHO.h"
 #include "LISTA.H"
 
@@ -116,7 +118,7 @@ BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *pBaralho)
       {
          return  BAR_CondRetFaltouMemoria ;
       }
-	(*pBaralho)->Cartas = LIS_CriarLista(DestruirValor);
+	(*pBaralho)->Cartas = LIS_CriarLista((void (*) (void *pDado))DestruirValor);
 	if((*pBaralho)->Cartas==NULL)
 	{
 		return BAR_CondRetFaltouMemoria;
@@ -185,5 +187,56 @@ BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[])
 	}
 	return retorno;
 }/* Fim função: BAR  &Cria vetor cartas */
+
+
+
+/***************************************************************************
+*
+*  $FC Função: BAR  &Embaralhar
+*  ****/
+ BAR_tpCondRet BAR_Embaralhar( BAR_tppBaralho pBaralho )
+   {
+
+	   int i = -1; //tamBaralho = -1;
+	   LIS_tppLista pListaDestino = NULL;
+      
+       if( pBaralho == NULL )
+		   return BAR_CondRetBaralhoNaoExiste ;
+
+	   pListaDestino=LIS_CriarLista((void (*) (void *pDado))DestruirValor);
+	   if(pListaDestino==NULL)
+	   {
+		   return BAR_CondRetFaltouMemoria;
+	   }
+
+	   IrInicioLista( pListaDestino );
+	   
+	   srand((unsigned) time(NULL));
+	   
+	   for(i = 40; i > 0; i--)
+	   {
+
+		   LIS_tpCondRet condRetLis;
+		   int inxCarta = rand() % i;							/* Sorteia uma carta */
+
+		   IrInicioLista( pBaralho->Cartas );					/* Inicio do baralho */
+		   
+		   if( LIS_AvancarElementoCorrente( pBaralho->Cartas, inxCarta ) != LIS_CondRetOK )		/* Vai para a carta sorteada */
+				return BAR_CondRetTamanhoErrado;
+		   
+		   condRetLis = LIS_ExcluirElemento( pBaralho->Cartas) ;
+		   if( condRetLis == LIS_CondRetListaVazia )							
+				return BAR_CondRetListaVazia;
+		   else if( condRetLis == LIS_CondRetFaltouMemoria )
+			    return BAR_CondRetFaltouMemoria;
+	   }
+
+	   LIS_DestruirLista( pBaralho->Cartas );	/* Destrói a lista antiga */
+	   pBaralho->Cartas = pListaDestino;		/* Baralho agora é composto pela lista embaralhada */
+
+	   return BAR_CondRetOK;
+
+   } /* Fim função: BAR  &Embaralhar */
+
 
 /********** Fim do módulo de implementação: BAR  BARALHO **********/

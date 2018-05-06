@@ -14,6 +14,13 @@ int main()
 	printf("sucesso em criar uma carta!\n");
 	}
 	retorno=BAR_CriaVetorCartas(cartas);
+		if(retorno==BAR_CondRetOK)
+		printf("sucesso\n");
 	retorno=BAR_CriarBaralho(Baralho);
+		if(retorno==BAR_CondRetOK)
+		printf("sucesso\n");
+	retorno=BAR_Embaralhar(*Baralho);
+	if(retorno==BAR_CondRetOK)
+		printf("sucesso\n");
 	return 0;
 }
