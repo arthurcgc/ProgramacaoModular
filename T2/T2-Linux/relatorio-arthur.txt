@@ -8,9 +8,9 @@ Arthur Cavalcante Gomes Coelho - 1313099
 14/04/18|		2		|	  	  	Codificar módulo		| Início da implementação da função CriarCarta do módulo BARALHO.c
 16/04/18|		2		|	  	   	Codificar módulo		| Implementação da função CriarCarta do módulo BARALHO.c
 18/04/18|	       2,5		|	  	  	Codificar módulo		| Alteração da função CriarCarta do módulo BARALHO.c, corrigindo erros.
-14/04/18|		3,5		|	  	  	Codificar módulo		| Início da implementação da função CriaVetorCartas do módulo BARALHO.c
-16/04/18|		2		|	  	   	Codificar módulo		| Implementação da função CriaVetorCartas do módulo BARALHO.c
-18/04/18|	       2,5		|	  	  	Codificar módulo		| Alteração da função CriarVetorCartas do módulo BARALHO.c, corrigindo erros.
+20/04/18|		3,5		|	  	  	Codificar módulo		| Início da implementação da função CriaVetorCartas do módulo BARALHO.c
+21/04/18|		2		|	  	   	Codificar módulo		| Implementação da função CriaVetorCartas do módulo BARALHO.c
+22/04/18|	       2,5		|	  	  	Codificar módulo		| Alteração da função CriarVetorCartas do módulo BARALHO.c, corrigindo erros.
 24/04/18|		2		|	  	  	Codificar módulo		| Início da implementação da função CriaBaralho do módulo BARALHO.c
 30/04/18|		5,5(muitas)	|	  	   	Codificar módulo		| Implementação da função CriaBaralho do módulo BARALHO.c
 01/05/18|	       2,5		|	  	  	Codificar módulo		| Alteração da função CriarBaralho do módulo BARALHO.c, corrigindo erros.

@@ -75,6 +75,12 @@ BAR_tpCondRet DestruirValor(void * pValor)
 		free(pValor);
 		return BAR_CondRetOK;
 	}
+
+BAR_tpCondRet DestruirCarta(BAR_tppCarta pCarta)
+{
+	free(pCarta);
+	return BAR_CondRetOK;
+}
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -232,7 +238,8 @@ BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[])
 		   if( LIS_AvancarElementoCorrente( pBaralho->Cartas, inxCarta ) != LIS_CondRetOK )		/* Vai para a carta sorteada */
 				return BAR_CondRetTamanhoErrado;
 		   /*ERRROOOOOOOOOOOOOOOOOOOOOOOOOOOO*/
-		   condRetLis = LIS_ExcluirElemento( pBaralho->Cartas) ; //condRetLis=LIS_InserirElementoApos(pListaDestino,(LIS_tppLista) pBaralho->Cartas->pElemCorr);//pBaralho->Cartas->pElemCorr
+		   //condRetLis = LIS_ExcluirElemento( pBaralho->Cartas) ; 
+		   condRetLis=LIS_InserirElementoApos(pListaDestino,retorna_corrente(pBaralho->Cartas));//pBaralho->Cartas->pElemCorr
 		   if( condRetLis == LIS_CondRetListaVazia )							
 				return BAR_CondRetListaVazia;
 		   else if( condRetLis == LIS_CondRetFaltouMemoria )
