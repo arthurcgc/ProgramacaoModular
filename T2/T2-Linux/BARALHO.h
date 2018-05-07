@@ -61,8 +61,13 @@ typedef enum {
       BAR_CondRetFaltouMemoria,
             /* Faltou mem�ria ao tentar criar um elemento de lista */
 			
-	  BAR_CondRetCartaNaoCriada
+	  BAR_CondRetCartaNaoCriada,
 			/* Nao foi possivel criar o ponteiro Carta */
+
+	  BAR_CondRetBaralhoNaoExiste,
+			/* Ponteiro para baralho vazio */
+	  BAR_CondRetTamanhoErrado
+			/* Tamanho da lista de cartas errado */
 
 } BAR_tpCondRet ;
 
@@ -129,8 +134,49 @@ BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *pBaralho);
 ***********************************************************************/
 BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[]);
 
-#undef EMBARALHAMENTO_EXT
 
-/********** Fim do módulo de definição: EMB  Embaralhamento **********/
+/***********************************************************************
+*
+*  $FC Função: BAR  &Embaralhar
+*
+*  $ED Descrição da função
+*     Embaralha as cartas contidas no baralho em uma ordem aleatória.
+*	  Pega as cartas da lista do baralho e distribui em ordem aleatória
+*	  em uma nova lista. Depois, troca o ponteiro da lista do baralho.
+*
+*  $EP Parâmetros
+*     pBaralho - ponteiro para o baralho a ser embaralhado
+*
+*  $FV Valor retornado
+*     BAR_CondRetOK				  - embaralhou sem problemas
+*	  BAR_CondRetTamanhoErrado	  - tamanho do baralho errado
+*	  BAR_CondRetFaltouMemoria	  - faltou memoria para criar a lista nova
+*	  BAR_CondRetBaralhoNaoExiste - pBaralho é NULL
+*	  BAR_CondRetListaVazia		  - Lista vazia de cartas
+*
+***********************************************************************/
+BAR_tpCondRet BAR_Embaralhar( BAR_tppBaralho pBaralho );
+
+
+/***********************************************************************
+*
+*  $FC Função: EMB  &Destruir baralho
+*
+*  $ED Descrição da função
+*     Destrói o baralho fornecido.
+*     O parâmetro ponteiro para o baralho não é modificado.
+*     Se ocorrer algum erro durante a destruição, o baralho resultará
+*     estruturalmente incorreto.
+*     OBS. não existe previsão para possíveis falhas de execução.
+*
+*  $FV Valor retornado
+*     EMB_CondRetOK    - destruiu sem problemas
+*
+***********************************************************************/
+BAR_tpCondRet BAR_DestruirBaralho( BAR_tppBaralho pBaralho );
+
+#undef BARALHO_EXT
+
+/********** Fim do módulo de definição: BAR  BARALHO **********/
 #else
 #endif
