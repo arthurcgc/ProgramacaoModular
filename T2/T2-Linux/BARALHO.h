@@ -157,8 +157,26 @@ BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[]);
 ***********************************************************************/
 BAR_tpCondRet BAR_Embaralhar( BAR_tppBaralho pBaralho );
 
+
+/***********************************************************************
+*
+*  $FC Função: EMB  &Destruir baralho
+*
+*  $ED Descrição da função
+*     Destrói o baralho fornecido.
+*     O parâmetro ponteiro para o baralho não é modificado.
+*     Se ocorrer algum erro durante a destruição, o baralho resultará
+*     estruturalmente incorreto.
+*     OBS. não existe previsão para possíveis falhas de execução.
+*
+*  $FV Valor retornado
+*     EMB_CondRetOK    - destruiu sem problemas
+*
+***********************************************************************/
+BAR_tpCondRet BAR_DestruirBaralho( BAR_tppBaralho pBaralho );
+
 #undef BARALHO_EXT
 
-/********** Fim do módulo de definição: EMB  Embaralhamento **********/
+/********** Fim do módulo de definição: BAR  BARALHO **********/
 #else
 #endif

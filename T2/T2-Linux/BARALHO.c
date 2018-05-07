@@ -159,28 +159,37 @@ BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[])
 			if(i<6)
 			{
 				retorno=BAR_CriaCarta(carta,(50+i),0,naipe[0][j]);
+				if (retorno!=BAR_CondRetOK)
+					return retorno;
 			}
 			//cria o J
 			else if(cont>=24&&cont<28)
 			{
 				retorno=BAR_CriaCarta(carta,'J',0,naipe[0][j]);
+				if (retorno!=BAR_CondRetOK)
+					return retorno;
 			}
 			//cria o Q
 			else if(cont>=28&&cont<32)
 			{
 				retorno=BAR_CriaCarta(carta,'Q',0,naipe[0][j]);
+				if (retorno!=BAR_CondRetOK)
+					return retorno;
 			}
 			//cria o K
 			else if(cont>=32&&cont<36)
 			{
 				retorno=BAR_CriaCarta(carta,'K',0,naipe[0][j]);
+				if (retorno!=BAR_CondRetOK)
+					return retorno;
 			}
 			//cria o A
 			else if(cont>=36&&cont<40)
 			{
 				retorno=BAR_CriaCarta(carta,'A',0,naipe[0][j]);
+				if (retorno!=BAR_CondRetOK)
+					return retorno;
 			}
-			//else retorno=BAR_CriaCarta(carta,'G',10,"generico");
 			cartas[cont]=*carta;
 			cont++;
 		}
@@ -208,7 +217,6 @@ BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[])
 	   {
 		   return BAR_CondRetFaltouMemoria;
 	   }
-
 	   IrInicioLista( pListaDestino );
 	   
 	   srand((unsigned) time(NULL));
@@ -223,8 +231,8 @@ BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[])
 		   
 		   if( LIS_AvancarElementoCorrente( pBaralho->Cartas, inxCarta ) != LIS_CondRetOK )		/* Vai para a carta sorteada */
 				return BAR_CondRetTamanhoErrado;
-		   
-		   condRetLis = LIS_ExcluirElemento( pBaralho->Cartas) ;
+		   /*ERRROOOOOOOOOOOOOOOOOOOOOOOOOOOO*/
+		   condRetLis = LIS_ExcluirElemento( pBaralho->Cartas) ; //condRetLis=LIS_InserirElementoApos(pListaDestino,(LIS_tppLista) pBaralho->Cartas->pElemCorr);//pBaralho->Cartas->pElemCorr
 		   if( condRetLis == LIS_CondRetListaVazia )							
 				return BAR_CondRetListaVazia;
 		   else if( condRetLis == LIS_CondRetFaltouMemoria )
@@ -237,6 +245,28 @@ BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[])
 	   return BAR_CondRetOK;
 
    } /* Fim função: BAR  &Embaralhar */
+
+ /***************************************************************************
+*
+*  $FC Função: BAR  &Destruir baralho
+*  ****/
+BAR_tpCondRet BAR_DestruirBaralho( BAR_tppBaralho pBaralho )
+   {
+
+      if( pBaralho == NULL )
+	  {
+		  free(pBaralho) ;
+		  return BAR_CondRetOK ;
+	  }
+
+      if(pBaralho->Cartas != NULL)
+		  LIS_DestruirLista( pBaralho->Cartas ) ;
+
+      free( pBaralho ) ;
+
+	  return BAR_CondRetOK;
+
+   } /* Fim função: EMB  &Destruir baralho */
 
 
 /********** Fim do módulo de implementação: BAR  BARALHO **********/
