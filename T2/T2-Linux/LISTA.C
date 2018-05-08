@@ -557,10 +557,16 @@
    } /* Fim função: LIS  -Limpar a cabeça da lista */
 
 
+
+/***********************************************************************
+*
+*  $FC Função: LIS  -Retorna ponteiro corrente da lista
+*
+***********************************************************************/
    void *retorna_corrente(LIS_tppLista pLista)
    {
 	   return pLista->pElemCorr->pValor;
-   }
+   }/* Fim função: LIS  -Retorna corrente */
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
 
