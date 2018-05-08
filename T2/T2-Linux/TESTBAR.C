@@ -26,13 +26,13 @@
 #include    "Generico.h"
 #include    "LerParm.h"
 
-#include    "Lista.H"
+#include    "LISTA.H"
 #include    "BARALHO.h"
 
 static const char RESET_BARALHO_CMD         [ ] = "=resetteste"     ;
 static const char CRIAR_BARALHO_CMD         [ ] = "=criarbaralho"   ;
 static const char CRIAR_CARTA_CMD           [ ] = "=criarcarta"     ;
-static const char CRIAR_VETORCARTA_CMD      [ ] = "=criarvetcarta"  ;
+static const char CRIAR_VETCARTA_CMD        [ ] = "=criarvetcarta"  ;
 static const char EMBARALHAR_CMD            [ ] = "=embaralha"      ;
 static const char DESTRUIR_CARTA_CMD        [ ] = "=destroicarta"   ;
 static const char DESTRUIR_BARALHO_CMD      [ ] = "=destroibar"     ;
@@ -53,9 +53,8 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-   static void DestruirValor( void * pValor ) ;
    static int ValidarInxBaralho( int inxBaralho , int Modo ) ;
-   static int ValidarInxcarta( int inxCarta , int Modo ) ;
+   static int ValidarInxCarta( int inxCarta , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -81,21 +80,21 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
    TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
    {
 
-      int inxBaralho = -1 ,
-		  inxCarta   = -1 , 
-          numLidos   = -1 ,
-          CondRetEsp = -1 ;
+      int inxBaralho = -1 ;
+	  int inxCarta   = -1 ; 
+      int numLidos   = -1 ;
+      int CondRetEsp = -1 ;
+	  int peso       = -1 ;
 
       TST_tpCondRet CondRet ;
 
       char   StringDado[  DIM_VALOR ] ;
-      char * pDado ;
+	  char nome;
+	  char *naipe;
 
-      int ValEsp = -1 ;
 
       int i ;
 
-      int numElem = -1 ;
 
       StringDado[ 0 ] = 0 ;
 
@@ -106,7 +105,7 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
 
             for( i = 0 ; i < DIM_VT_BARALHO ; i++ )
             {
-               vtbaralho[ i ] = NULL ;
+               vtBaralho[ i ] = NULL ;
             } /* for */
 
             return TST_CondRetOK ;
@@ -139,7 +138,7 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
          else if ( strcmp( ComandoTeste , CRIAR_CARTA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "iiii" , &inxCarta, &nome, &peso, &naipe, &CondRetEsp ) ;
+            numLidos = LER_LerParametros( "isisi" , &inxCarta, &nome, &peso, &naipe, &CondRetEsp ) ;
 
             if ( ( numLidos != 4 )
               || ( ! ValidarInxCarta( inxCarta , NAO_VAZIO )))
@@ -159,7 +158,7 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
 		 else if ( strcmp( ComandoTeste , DESTRUIR_CARTA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "ii" , &inxCarta, &CondRetEsp ) ;
+            numLidos = LER_LerParametros( "si" , &inxCarta, &CondRetEsp ) ;
 
             if ( ( numLidos != 1 )
               || ( ! ValidarInxCarta( inxCarta , NAO_VAZIO )))
@@ -167,7 +166,7 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
                return TST_CondRetParm ;
             } /* if */
 
-            DestruirValor(&vtCartas[ inxCarta ]) ;
+            CondRet = DestruirValor(&vtCartas[ inxCarta ]) ;
             vtCartas[ inxCarta ] = NULL ;
 
             return  TST_CompararInt( CondRetEsp , CondRet ,
@@ -188,7 +187,7 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
                return TST_CondRetParm ;
             } /* if */
 
-            BAR_DestruirBaralho(&vtBaralho[ inxBaralho ]) ;
+            CondRet = BAR_DestruirBaralho(&vtBaralho[ inxBaralho ]) ;
             vtBaralho[ inxBaralho ] = NULL ;
 
             return  TST_CompararInt( CondRetEsp , CondRet ,
@@ -199,7 +198,7 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
 		else if ( strcmp( ComandoTeste , CRIAR_VETCARTA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "ii" ,
+            numLidos = LER_LerParametros( "si" ,
                        &inxCarta, &CondRetEsp ) ;
 
             if ( ( numLidos != 2 )
@@ -227,30 +226,16 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
                return TST_CondRetParm ;
             } /* if */
 
-            CondRet = BAR_Embaralhar( &vtBaralho[ inxBaralho ] )
+            CondRet = BAR_Embaralhar( &vtBaralho[ inxBaralho ] );
 
             return TST_CompararInt( CondRetEsp , CondRet ,
                "Erro ao embaralhar."  ) ;
 
          } /* fim ativa: Testar Embaralhamento */
-
+		return TST_CondRetNaoConhec ;
+		}
 
 /*****  Código das funções encapsuladas no módulo  *****/
-
-
-/***********************************************************************
-*
-*  $FC Função: TLIS -Destruir valor
-*
-***********************************************************************/
-
-   void DestruirValor( void * pValor )
-   {
-
-      free( pValor ) ;
-
-   } /* Fim função: TLIS -Destruir valor */
-
 
 
 /***********************************************************************
@@ -270,13 +255,13 @@ BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
       
       if ( Modo == VAZIO )
       {
-         if ( vtBaralhos[ inxBaralho ] != 0 )
+         if ( vtBaralho[ inxBaralho ] != 0 )
          {
             return FALSE ;
          } /* if */
       } else
       {
-         if ( vtBaralhos[ inxBaralho ] == 0 )
+         if ( vtBaralho[ inxBaralho ] == 0 )
          {
             return FALSE ;
          } /* if */

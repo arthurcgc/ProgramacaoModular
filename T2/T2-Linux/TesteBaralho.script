@@ -12,7 +12,6 @@
 =declararparm 	carta4   int 4 
 =declararparm   carta5   int 5
 
-
 =declararparm   baralho0 int 0
 =declararparm   baralho1 int 1
 =declararparm   baralho2 int 2
@@ -133,3 +132,5 @@
 
 
 // fim
+
+

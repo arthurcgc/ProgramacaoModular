@@ -94,6 +94,22 @@ typedef enum {
 BAR_tpCondRet BAR_CriaCarta(BAR_tppCarta *pCarta,char nome, int peso,char *naipe);
 
 
+/***********************************************************************
+*
+*  $FC Função: EMB  &Destruir carta
+*
+*  $ED Descrição da função
+*     Destrói a carta fornecida.
+*     Se ocorrer algum erro durante a destruição, o baralho resultará
+*     estruturalmente incorreto.
+*     OBS. não existe previsão para possíveis falhas de execução.
+*
+*  $FV Valor retornado
+*     BAR_CondRetOK    - destruiu sem problemas
+*
+***********************************************************************/
+BAR_tpCondRet DestruirCarta(BAR_tppCarta pCarta);
+
 
 /***********************************************************************
 *
@@ -132,7 +148,7 @@ BAR_tpCondRet BAR_CriarBaralho(BAR_tppBaralho *pBaralho);
 *	  BAR_CondRetCartaNaoCriada - se houver falha na atribuição *pCarta=aux_carta
 *
 ***********************************************************************/
-BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta cartas[]);
+BAR_tpCondRet BAR_CriaVetorCartas(BAR_tppCarta *cartas[]);
 
 
 /***********************************************************************
@@ -174,6 +190,8 @@ BAR_tpCondRet BAR_Embaralhar( BAR_tppBaralho pBaralho );
 *
 ***********************************************************************/
 BAR_tpCondRet BAR_DestruirBaralho( BAR_tppBaralho pBaralho );
+
+
 
 #undef BARALHO_EXT
 
