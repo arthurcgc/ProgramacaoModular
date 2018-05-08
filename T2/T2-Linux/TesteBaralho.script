@@ -1,0 +1,136 @@
+// Script:    TesteBaralho.script
+// Autor:     Pedro Henrique
+// Data:      05/mai/2018
+// Propósito: Testar superficialmente o módulo baralho generico
+//
+
+== Inicializar valores
+=declararparm 	carta0   int 0 
+=declararparm   carta1   int 1
+=declararparm   carta2   int 2
+=declararparm   carta3   int 3
+=declararparm 	carta4   int 4 
+=declararparm   carta5   int 5
+
+=declararparm   baralho0 int 0
+=declararparm   baralho1 int 1
+=declararparm   baralho2 int 2
+
+=declararparm   Copas   char "Copas"
+=declararparm   Espadas char "Espadas"
+=declararparm   Ouros   char "Ouros"
+=declararparm   Paus    char "Paus"
+
+=declararparm   str0    char "blabla"
+
+=declararparm   CA  char "A"
+=declararparm   C2  char "2"
+=declararparm   C3  char "3"
+=declararparm   C4  char "4"
+=declararparm   C5  char "5"
+=declararparm   C6  char "6"
+=declararparm   C7  char "7"
+=declararparm   CJ  char "J"
+=declararparm   CQ  char "Q"
+=declararparm   CK  char "K"
+
+=declararparm   Peso    int 0
+
+=declararparm   OK      	   int 0
+=declararparm   ListaVazia         int 1
+=declararparm   FaltouMemoria      int 2
+=declararparm   CartaNaoCriada     int 3
+=declararparm   BaralhoNaoExiste   int 4
+=declararparm   ListaCartasVazia   int 5
+=declararparm   TamanhoErrado      int 6
+
+
+
+
+== Testando a cria carta 
+=criacarta      carta0	  CA	  Peso	 Copas	   OK
+=criacarta      carta1    CA      Peso   Espadas   OK
+=criacarta      carta2    CA      Peso   Ouros     OK
+=criacarta      carta3    CA      Peso   Paus      OK
+
+
+== Testando a cria carta com naipe inexistente
+=criacarta      carta4    C2      Peso   str0      OK
+=recuperar
+
+== Testando a cria carta com nome errado
+=criacarta      carta5    str0    Peso   Copas     OK 
+=recuperar
+
+== Destruindo as cartas
+=destroicarta   carta0    OK
+=destroicarta   carta1    OK
+=destroicarta   carta2    OK
+=destroicarta   carta3    OK
+=destroicarta   carta4    OK
+=destroicarta   carta5    OK
+
+== Criar carta com condição errada
+=criacarta      carta0	  CA	  Peso	 Copas	   FaltouMemoria
+=recuperar
+=criacarta      carta1    C2      Peso   Ouros     CartaNaoCriada
+=recuperar
+
+== Criar carta com parametro errado
+=criacarta      str0      C3      Peso    Paus      OK
+=recuperar
+
+== Destruir carta inexistente
+=destroicarta   carta2    OK
+=recuperar
+
+== Testando a cria baralho
+=criabaralho    baralho1  OK
+
+== Criar baralho com condição errada
+=criabaralho    baralho0  FaltouMemoria
+=recuperar
+=criabaralho    baralho0  ListaVazia
+=recuperar
+
+== Destruir baralho
+=destroibar     baralho1  OK
+
+== Destruir baralho inexistente
+=destroibar     baralho2  OK
+=recuperar
+
+== Embaralhar baralho
+=embaralhar     baralho1  OK
+
+== Embaralhar baralho que não exite
+=embaralhar     baralho0  OK
+=recuperar
+
+== Embaralhar baralho com condição errada
+=criabaralho    baralho2  OK
+=embaralhar     baralho2  TamanhoErrado
+=recuperar
+=embaralhar     baralho2  FaltouMemoria
+=recuperar
+=embaralhar     baralho2  BaralhoNaoExiste
+=recuperar
+=embaralhar     baralho2  ListaVazia
+=recuperar
+=destroibar     baralho2  OK
+
+== Criar vetor de cartas
+=criarvetcarta  carta0    OK
+
+== Criar vetor de cartas com condição errada
+=criarvetcarta  carta1    FaltouMemoria
+=recuperar
+=criarvetcarta  carta1    CartaNaoCriada
+=recuperar
+
+
+
+
+// fim
+
+
