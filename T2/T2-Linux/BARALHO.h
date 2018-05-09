@@ -96,7 +96,7 @@ BAR_tpCondRet BAR_CriaCarta(BAR_tppCarta *pCarta,char nome, int peso,char *naipe
 
 /***********************************************************************
 *
-*  $FC Função: EMB  &Destruir carta
+*  $FC Função: BAR  &Destruir carta
 *
 *  $ED Descrição da função
 *     Destrói a carta fornecida.
@@ -176,7 +176,7 @@ BAR_tpCondRet BAR_Embaralhar( BAR_tppBaralho pBaralho );
 
 /***********************************************************************
 *
-*  $FC Função: EMB  &Destruir baralho
+*  $FC Função: BAR  &Destruir baralho
 *
 *  $ED Descrição da função
 *     Destrói o baralho fornecido.
@@ -186,7 +186,7 @@ BAR_tpCondRet BAR_Embaralhar( BAR_tppBaralho pBaralho );
 *     OBS. não existe previsão para possíveis falhas de execução.
 *
 *  $FV Valor retornado
-*     EMB_CondRetOK    - destruiu sem problemas
+*     BAR_CondRetOK    - destruiu sem problemas
 *
 ***********************************************************************/
 BAR_tpCondRet BAR_DestruirBaralho( BAR_tppBaralho pBaralho );

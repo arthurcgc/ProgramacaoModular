@@ -1,310 +1,149 @@
-/***************************************************************************
-*  $MCI Módulo de implementação: TLIS Teste lista de símbolos
-*
-*  Arquivo gerado:              TestLIS.c
-*  Letras identificadoras:      TLIS
-*
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
-*
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
-*
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1		  bla   05/05/2018
-*
-***************************************************************************/
-
+ï»¿
 #include    <string.h>
 #include    <stdio.h>
 #include    <malloc.h>
 
-#include    "TST_Espc.h"
+#include "GENERICO.H"
+#include "LERPARM.H"
+#include "BARALHO.h"
+#include "TST_ESPC.H"
 
-#include    "Generico.h"
-#include    "LerParm.h"
-
-#include    "LISTA.H"
-#include    "BARALHO.h"
-
-static const char RESET_BARALHO_CMD         [ ] = "=resetteste"     ;
-static const char CRIAR_BARALHO_CMD         [ ] = "=criarbaralho"   ;
-static const char CRIAR_CARTA_CMD           [ ] = "=criarcarta"     ;
-static const char CRIAR_VETCARTA_CMD        [ ] = "=criarvetcarta"  ;
-static const char EMBARALHAR_CMD            [ ] = "=embaralha"      ;
-static const char DESTRUIR_CARTA_CMD        [ ] = "=destroicarta"   ;
-static const char DESTRUIR_BARALHO_CMD      [ ] = "=destroibar"     ;
+/* Nomes dos comandos de teste especï¿½ficos */
+#define CRIAR_BAR_CMD "=criarbaralho"
+#define CRIAR_CAR_CMD "=criarcarta"
+#define CRIA_VEC_CMD "=criavetor"
+#define EMBARALHA_CMD "=embaralhar"
+#define DESTRUIR_BAR_CMD "=destruirbaralho"
+#define DESTROI_CAR_CMD "=destruircarta"
 
 
-#define TRUE  1
-#define FALSE 0
 
-#define VAZIO     0
-#define NAO_VAZIO 1
-
-#define DIM_VT_CARTA   10
-#define DIM_VT_BARALHO 10	
-#define DIM_VALOR     100
-
-BAR_tppCarta   vtCartas  [ DIM_VT_CARTA] ;
-BAR_tppBaralho vtBaralho [ DIM_VT_BARALHO];
-
-/***** Protótipos das funções encapuladas no módulo *****/
-
-   static int ValidarInxBaralho( int inxBaralho , int Modo ) ;
-   static int ValidarInxCarta( int inxCarta , int Modo ) ;
-
-/*****  Código das funções exportadas pelo módulo  *****/
-
-
-/***********************************************************************
+static	  BAR_tppCarta pCarta = NULL; // ponteiro para uma carta
+static    BAR_tppBaralho pBaralho= NULL; //ponteiro para baralho
+/*****************************************************************
+******
 *
-*  $FC Função: TBAR &Testar Baralho
+* $FC Funï¿½ï¿½o: Efetuar operaï¿½ï¿½es de teste especï¿½ficas para baralho
 *
-*  $ED Descrição da função
-*     Criar 1 baralho embaralhado
+* $EP Parï¿½metros
+* $P ComandoTeste - String contendo o comando
 *
-*     Comandos disponíveis:
-*
-*     =resetteste
-*           - anula o vetor de Baralho. Provoca vazamento de memória
-*     =criarbaralho                 inxBaralho	CondRetEsp
-*     =criarcarta                   inxCarta    nome	peso	naipe	CondRetEsp
-*	  =destroicarta                 inxCarta    CondRetEsp
-*	  =criarvetcarta                inxCarta    CondRetEsp
-*     =embaralha                    inxBaralho  CondRetEsp
-***********************************************************************/
+******************************************************************
+*****/
+TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
+{
+    BAR_tpCondRet CondRetObtido;
+    BAR_tpCondRet CondRetEsperada = BAR_CondRetOK;
+    //BAR_tppCarta pCarta = NULL; // ponteiro para uma carta
+	BAR_tppCarta *vec_cartas=NULL;	// vetor de cartas
+	//BAR_tppBaralho pBaralho= NULL; //ponteiro para baralho
+    char nome_carta;
+    int peso_carta;
+    char naipe_carta[20];
+    int NumLidos   = -1 ,
+        CondRetEsp = -1  ;
+    TST_tpCondRet Ret ;
 
-   TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
-   {
+	/* Testar BAR Criar carta */
 
-      int inxBaralho = -1 ;
-	  int inxCarta   = -1 ; 
-      int numLidos   = -1 ;
-      int CondRetEsp = -1 ;
-	  int peso       = -1 ;
+    if( strcmp( ComandoTeste , CRIAR_CAR_CMD ) == 0 )
+    {
 
-      TST_tpCondRet CondRet ;
+      NumLidos = LER_LerParametros("cisi",&nome_carta,&peso_carta,&naipe_carta,&CondRetEsperada);
 
-      char   StringDado[  DIM_VALOR ] ;
-	  char nome;
-	  char *naipe;
+		if ( NumLidos != 4 )
+		{
+			return TST_CondRetParm ;
+		} /* if */
 
+    CondRetObtido = BAR_CriaCarta(&pCarta,nome_carta,peso_carta,naipe_carta);
 
-      int i ;
+    return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                            "Retorno errado ao criar carta." );
+	}/* fim ativa: Testar BAR Criar carta */
 
 
-      StringDado[ 0 ] = 0 ;
+	/* Testar BAR Destruir carta 
+	else if( strcmp( ComandoTeste , DESTROI_CAR_CMD ) == 0)
+	{
+		 NumLidos = LER_LerParametros("cisi",&nome_carta,&peso_carta,&naipe_carta,&CondRetEsperada);
 
-      /* Efetuar reset de teste de Baralho */
+		if ( NumLidos != 4 )
+		{
+			return TST_CondRetParm ;
+		} /* if 
 
-         if ( strcmp( ComandoTeste , RESET_BARALHO_CMD ) == 0 )
-         {
+	CondRetObtido = DestruirCarta(pCarta);
 
-            for( i = 0 ; i < DIM_VT_BARALHO ; i++ )
-            {
-               vtBaralho[ i ] = NULL ;
-            } /* for */
+	return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                            "Retorno errado ao destruir carta." );
 
-            return TST_CondRetOK ;
+	}/* fim ativa: Testar BAR Destruir carta 
 
-         } /* fim ativa: Efetuar reset de teste de Baralho */
+	
+	/* Testar BAR Cria vetor de cartas */
 
-      /* Testar CriarLista */
+	else if( strcmp( ComandoTeste , CRIA_VEC_CMD ) == 0 )
+	{
+		NumLidos = LER_LerParametros("i",&CondRetEsperada);
+		
+		if ( NumLidos != 1 )
+		{
+			return TST_CondRetParm ;
+		} /* if */
 
-         else if ( strcmp( ComandoTeste , CRIAR_BARALHO_CMD ) == 0 )
-         {
+		CondRetObtido = BAR_CriaVetorCartas(&vec_cartas);
 
-            numLidos = LER_LerParametros( "ii" ,
-                       &inxBaralho, &CondRetEsp ) ;
+		return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                            "Retorno errado ao construir vetor de cartas." );
+	}/* fim ativa: Testar BAR Cria vetor cartas */
 
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxBaralho( inxBaralho , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
 
-            CondRet = BAR_CriarBaralho(&vtBaralho[ inxBaralho ]) ;
+	/* Testar BAR Criar baralho */
 
-            return TST_CompararInt( CondRetEsp , CondRet ,
-               "Erro ao criar baralho."  ) ;
+	else if( strcmp( ComandoTeste , CRIAR_BAR_CMD ) == 0 )
+	{
+		NumLidos = LER_LerParametros("i",&CondRetEsperada);
+		
+		if ( NumLidos != 1 )
+		{
+			return TST_CondRetParm ;
+		} /* if */
 
-         } /* fim ativa: Testar CriarBaralho */
+		CondRetObtido = BAR_CriarBaralho(&pBaralho);
 
-      /* Testar Criar Carta */
+		return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                            "Retorno errado ao construir baralho." );
+	}/* fim ativa: Testar BAR Criar baralho */
 
-         else if ( strcmp( ComandoTeste , CRIAR_CARTA_CMD ) == 0 )
-         {
 
-            numLidos = LER_LerParametros( "isisi" , &inxCarta, &nome, &peso, &naipe, &CondRetEsp ) ;
+	/* Testar BAR Destruir baralho */
+	else if( strcmp( ComandoTeste , DESTRUIR_BAR_CMD ) == 0 )
+	{
+		NumLidos = LER_LerParametros("i",&CondRetEsperada);
 
-            if ( ( numLidos != 4 )
-              || ( ! ValidarInxCarta( inxCarta , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
+		if ( NumLidos != 1 )
+		{
+			return TST_CondRetParm ;
+		} /* if */
 
-           CondRet= BAR_CriaCarta(&vtCartas[ inxCarta ],nome, peso, naipe);
+		//CondRetObtido = BAR_CriarBaralho(&pBaralho);
 
-		   return TST_CompararInt( CondRetEsp , CondRet ,
-                     "Erro ao criar carta." );
+		CondRetObtido = BAR_DestruirBaralho(pBaralho);
 
-         } /* fim ativa: Testar CriarVetCarta */
-		 
-		 /* Testar Destroi Carta */
+		return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                            "Retorno errado ao destruir baralho." );
 
-		 else if ( strcmp( ComandoTeste , DESTRUIR_CARTA_CMD ) == 0 )
-         {
+	}/* fim ativa: Testar BAR Destruir baralho */
 
-            numLidos = LER_LerParametros( "si" , &inxCarta, &CondRetEsp ) ;
 
-            if ( ( numLidos != 1 )
-              || ( ! ValidarInxCarta( inxCarta , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
+	/* Testar BAR Embaralhar */
 
-            CondRet = DestruirValor(&vtCartas[ inxCarta ]) ;
-            vtCartas[ inxCarta ] = NULL ;
+	else if( strcmp( ComandoTeste , EMBARALHA_CMD ) == 0 )
+	{
 
-            return  TST_CompararInt( CondRetEsp , CondRet ,
-                     "Erro ao destruir carta." );
+	}
 
-         } /* fim ativa: Testar Destruir carta */
+}
 
-		 /* Testar Destroi Baralho */
-
-		 else if ( strcmp( ComandoTeste , DESTRUIR_BARALHO_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "ii" , &inxBaralho, &CondRetEsp ) ;
-
-            if ( ( numLidos != 1 )
-              || ( ! ValidarInxBaralho( inxBaralho , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRet = BAR_DestruirBaralho(&vtBaralho[ inxBaralho ]) ;
-            vtBaralho[ inxBaralho ] = NULL ;
-
-            return  TST_CompararInt( CondRetEsp , CondRet ,
-                     "Erro ao destruir baralho." );
-
-         } /* fim ativa: Testar Destruir baralho */
-
-		else if ( strcmp( ComandoTeste , CRIAR_VETCARTA_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "si" ,
-                       &inxCarta, &CondRetEsp ) ;
-
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxBaralho( inxCarta , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRet = BAR_CriaVetorCartas(&vtCartas[ inxCarta ]) ;
-
-            return TST_CompararInt( CondRetEsp , CondRet ,
-               "Erro ao criar vetor de carta."  ) ;
-
-         } /* fim ativa: Testar Embaralhamento */
-
-		 else if ( strcmp( ComandoTeste , EMBARALHAR_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "ii" ,
-                       &inxBaralho, &CondRetEsp ) ;
-
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxBaralho( inxCarta , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRet = BAR_Embaralhar( &vtBaralho[ inxBaralho ] );
-
-            return TST_CompararInt( CondRetEsp , CondRet ,
-               "Erro ao embaralhar."  ) ;
-
-         } /* fim ativa: Testar Embaralhamento */
-		return TST_CondRetNaoConhec ;
-		}
-
-/*****  Código das funções encapsuladas no módulo  *****/
-
-
-/***********************************************************************
-*
-*  $FC Função: TBAR -Validar indice do baralho
-*
-***********************************************************************/
-
-   int ValidarInxBaralho( int inxBaralho , int Modo )
-   {
-
-      if ( ( inxBaralho <  0 )
-        || ( inxBaralho >= DIM_VT_BARALHO ))
-      {
-         return FALSE ;
-      } /* if */
-      
-      if ( Modo == VAZIO )
-      {
-         if ( vtBaralho[ inxBaralho ] != 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } else
-      {
-         if ( vtBaralho[ inxBaralho ] == 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } /* if */
-         
-      return TRUE ;
-
-   } /* Fim função: TEMB -Validar indice do baralho */
-
-/***********************************************************************
-*
-*  $FC Função: TCAR -Validar indice da carta
-*
-***********************************************************************/
-
-   int ValidarInxCarta( int inxCarta , int Modo )
-   {
-
-      if ( ( inxCarta <  0 )
-        || ( inxCarta >= DIM_VT_CARTA ))
-      {
-         return FALSE ;
-      } /* if */
-         
-      if ( Modo == VAZIO )
-      {
-         if ( vtCartas[ inxCarta ] != 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } else
-      {
-         if ( vtCartas[ inxCarta ] == 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } /* if */
-         
-      return TRUE ;
-
-   } /* Fim Função: TCAR -Validar indice de carta */
-
-
-
-/********** Fim do módulo de implementação: TLIS Teste lista de símbolos **********/
 
